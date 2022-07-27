@@ -4,9 +4,7 @@ monkey.patch_all()
 from flask import Flask, request
 import ConsultaPrecoNotebook, Classes
 from gevent.pywsgi import WSGIServer
-from funcoes import filtro_inicial,menor_valor,ajuste_dataframe, lista,custo_beneficio,maior_performance
-from ConsultaPrecoNotebook import lista_notebooks_precos
-from Classes import Notebook
+from ConsultaPrecoNotebook import lista_notebooks_precos,menor_valor,ajuste_dataframe,lista,custo_beneficio,maior_performance
 import json
 
 
@@ -49,8 +47,11 @@ def consulta_notebook():
   investimento = float(corrigir.replace(',','.'))
   
   tipo_pagamento = (body['tipo_pagamento'])
-  
-  filtro_inicial(pref,tipo_notebook,pref_modelo,pref_ram, pref_cpu,pref_vga,pref_armazenamento,pref_so,pref_tela,investimento,tipo_pagamento)
+  if tipo_pagamento == 'avista':
+    tipo_pagamento = 'preco_avista'
+  else:
+    tipo_pagamento = 'preco_aprazo'
+  ConsultaPrecoNotebook.coletar_preco('consulta_notebook',pref,pref_ram,pref_cpu,pref_vga,pref_armazenamento,pref_so,pref_tela,tipo_notebook,pref_modelo,investimento,tipo_pagamento)
 
   #NOTEBOOK MAIS BARATO
   menor_valor(tipo_pagamento)
@@ -69,7 +70,10 @@ def consulta_notebook():
   lista[10],
   lista[11],
   lista[12],
-  lista[13]
+  lista[13],
+  lista[14],
+  lista[15],
+  lista[16]
     )
   notebook_barato_json = json.loads(json.dumps(notebook_barato.__dict__))
   lista.clear()
@@ -90,7 +94,10 @@ def consulta_notebook():
   lista[10],
   lista[11],
   lista[12],
-  lista[13]
+  lista[13],
+  lista[14],
+  lista[15],
+  lista[16]
     )
   notebook_beneficio_json = json.loads(json.dumps(notebook_beneficio.__dict__))
   lista.clear()
@@ -112,7 +119,10 @@ def consulta_notebook():
   lista[10],
   lista[11],
   lista[12],
-  lista[13]
+  lista[13],
+  lista[14],
+  lista[15],
+  lista[16]
     )
   
   notebook_performance_json = json.loads(json.dumps(notebook_performance.__dict__))
@@ -123,17 +133,6 @@ def consulta_notebook():
                  'potente':notebook_performance_json}
   
   return(lista_final)
-
-
-def converter_inteiro(valor):
-  if(valor != 'n/a'):
-    valor = int(valor)
-  else:
-    valor = 'n/a'
-
-
-
-
 
 
 
@@ -159,10 +158,10 @@ def coleta_preco():
   pref_vga = (body['pref_vga'])
   pref_tela = (body['pref_tela'])
   
-  ConsultaPrecoNotebook.coletar_preco(pref,pref_ram,pref_cpu,pref_vga,pref_armazenamento,pref_so,pref_tela,tipo_notebook,pref_modelo)
+  ConsultaPrecoNotebook.coletar_preco('consulta_preco',pref,pref_ram,pref_cpu,pref_vga,pref_armazenamento,pref_so,pref_tela,tipo_notebook,pref_modelo,'sem_investimento','sem_tipo_pagamento')
 
   dicio = {'avista':lista_notebooks_precos[0],'avista_str':lista_notebooks_precos[1],'aprazo':lista_notebooks_precos[2],'aprazo_str':lista_notebooks_precos[3], 'id_menor_avisa': lista_notebooks_precos[4], 'id_menor_aprazo':lista_notebooks_precos[5]}
-  #json_lista = json.dumps(dicio, indent = 1)
+
 
   return(dicio)
 
@@ -170,8 +169,5 @@ def coleta_preco():
 
 
 
-
-
 http_server = WSGIServer(('0.0.0.0',8080), app)
 http_server.serve_forever()
-# app.run(host='0.0.0.0')
