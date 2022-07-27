@@ -1,13 +1,15 @@
 from gevent import monkey
 monkey.patch_all()
 
-from flask import Flask, request, jsonify
+from flask import Flask, request
+import ConsultaPrecoNotebook, Classes
 from gevent.pywsgi import WSGIServer
-from funcoes import lista_note,filtro_inicial,menor_valor,ajuste_dataframe, lista,custo_beneficio,maior_performance,consulta_preco_notebook,menor_valor_avista,menor_valor_aprazo,lista_notebooks_precos
+from funcoes import filtro_inicial,menor_valor,ajuste_dataframe, lista,custo_beneficio,maior_performance
+from ConsultaPrecoNotebook import lista_notebooks_precos
 from Classes import Notebook
 import json
 
-import ConexaoBDHeroku,ConsultaPrecoNotebook, Classes
+
 
 app= Flask('__name__')
 app.config['JSON_AS_ASCII'] = False
@@ -17,8 +19,8 @@ notebook_beneficio, notebook_potente = '',''
 
 @app.route('/')
 def welcome():
-  return 'API IS RUNNING!!!'
-
+  return 'THE API IS RUNNING!'
+  
 @app.route('/prcai_recomendacao_notebooks', methods=['POST'])
 def consulta_notebook():
   global notebook_barato,notebook_beneficio, notebook_potente,notebook_barato_json,notebook_beneficio_json,notebook_potente_json
@@ -53,7 +55,7 @@ def consulta_notebook():
   #NOTEBOOK MAIS BARATO
   menor_valor(tipo_pagamento)
   ajuste_dataframe()
-  notebook_barato = Notebook(
+  notebook_barato = Classes.Notebook(
   lista[0],
   lista[1],
   lista[2],
@@ -74,7 +76,7 @@ def consulta_notebook():
   #NOTEBOOK CUSTO BENEFÍCIO
   custo_beneficio(tipo_pagamento)
   ajuste_dataframe()
-  notebook_beneficio = Notebook(
+  notebook_beneficio = Classes.Notebook(
   lista[0],
   lista[1],
   lista[2],
@@ -96,7 +98,7 @@ def consulta_notebook():
   #NOTEBOOK MELHOR PERFORMANCE
   maior_performance()
   ajuste_dataframe()
-  notebook_performance = Notebook(
+  notebook_performance = Classes.Notebook(
   lista[0],
   lista[1],
   lista[2],
@@ -137,7 +139,6 @@ def converter_inteiro(valor):
 
 @app.route('/prcai_checagem_preco_notebook', methods=['POST'])
 def coleta_preco():
-  global menor_valor_aprazo,menor_valor_avista
   
   body = request.json
   pref = (body['pref'])
@@ -159,7 +160,7 @@ def coleta_preco():
   pref_tela = (body['pref_tela'])
   
   ConsultaPrecoNotebook.coletar_preco(pref,pref_ram,pref_cpu,pref_vga,pref_armazenamento,pref_so,pref_tela,tipo_notebook,pref_modelo)
-  
+
   dicio = {'avista':lista_notebooks_precos[0],'avista_str':lista_notebooks_precos[1],'aprazo':lista_notebooks_precos[2],'aprazo_str':lista_notebooks_precos[3], 'id_menor_avisa': lista_notebooks_precos[4], 'id_menor_aprazo':lista_notebooks_precos[5]}
   #json_lista = json.dumps(dicio, indent = 1)
 

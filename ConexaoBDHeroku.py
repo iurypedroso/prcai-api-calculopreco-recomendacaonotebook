@@ -16,12 +16,12 @@ cursor = con2.cursor()
 #CONCLUSÃO CONEXÃO DB
   
 #PUXANDO TODO A TABELA DE NOTEBOOKS PARA UM DATAFRAME
-notebooks_dataframe = pd.read_sql('SELECT * FROM notebooks', con=con2)
+notebooks_dataframe = pd.read_sql('select * from notebooks where ram >4 and disponibilidade = 1 and preco_aprazo > 0;', con=con2)
 #Limpando quantidade total de caracteres em coluna do dataframe
 pd.set_option('display.max_colwidth', None)
 #Filtrando as colunas necessárias no dataframe
-notebooks_dataframe = notebooks_dataframe[['ID','marca','modelo','linha','serie','ram','processador','vga_dedicaca','tela','tela_resolucao','ssd','so','gamer','performance','preco_avista','preco_aprazo','link_avista','link_aprazo','loja_avista','loja_aprazo']]
+notebooks_dataframe = notebooks_dataframe[['ID','marca','modelo','linha','serie','ram','processador','vga_dedicaca','tela','tela_resolucao','ssd','so','dia_dia','trabalho_simples','estudos_simples','trabalho_vga','estudos_vga','trabalho_visual','estudos_visual','gamer','performance','preco_avista','preco_aprazo','link_avista','link_aprazo','loja_avista','loja_aprazo']]
 
 #FINALIZAÇÃO CONEXÃO BD
-cursor.close()
-con2.close()
+# cursor.close()
+# con2.close()
