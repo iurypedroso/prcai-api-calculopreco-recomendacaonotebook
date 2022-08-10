@@ -42,9 +42,7 @@ def consulta_notebook():
   pref_vga = (body['pref_vga'])
   pref_tela = (body['pref_tela'])
   
-  investimento_string = float(body['investimento'])
-  corrigir = '{:,.0f}'.format(float(investimento_string))
-  investimento = float(corrigir.replace(',','.'))
+  investimento = float(body['investimento'])
   
   tipo_pagamento = (body['tipo_pagamento'])
   if tipo_pagamento == 'avista':

@@ -20,7 +20,7 @@ notebooks_dataframe = pd.read_sql('select * from notebooks where ram >4 and disp
 #Limpando quantidade total de caracteres em coluna do dataframe
 pd.set_option('display.max_colwidth', None)
 #Filtrando as colunas necessárias no dataframe
-notebooks_dataframe = notebooks_dataframe[['ID','marca','modelo','linha','serie','ram','processador','vga_dedicaca','tela','tela_resolucao','ssd','hd','so','dia_dia','trabalho_simples','estudos_simples','trabalho_vga','estudos_vga','trabalho_visual','estudos_visual','gamer','performance','preco_avista','preco_aprazo','beneficio_avista','beneficio_aprazo','link_avista','link_aprazo','loja_avista','loja_aprazo']]
+notebooks_dataframe = notebooks_dataframe[['ID','marca','modelo','linha','serie','ram','processador','vga_dedicaca','tela','tela_resolucao','ssd','hd','so','trabalho','trabalho_cpu','dia_dia','trabalho_simples','estudos_simples','trabalho_vga','estudos_vga','trabalho_visual','estudos_visual','gamer','performance','preco_avista','preco_aprazo','beneficio_avista','beneficio_aprazo','link_avista','link_aprazo','loja_avista','loja_aprazo']]
 
 #FINALIZAÇÃO CONEXÃO BD
 # cursor.close()

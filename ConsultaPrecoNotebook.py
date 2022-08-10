@@ -62,7 +62,9 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
 
   #         =====INICIO NOTEBOOK BÁSICO=====         #
   if(tipo_notebook == 'dia_dia' or tipo_notebook == 'trabalho_simples' or tipo_notebook == 'estudos_simples'): #RAM, CPU, SSD
-
+    lista_note = notebooks_dataframe.drop(notebooks_dataframe.loc[notebooks_dataframe['preco_avista']==0].index, inplace=False)
+    lista_note_tipo = lista_note.drop(lista_note.loc[lista_note[tipo_notebook]==0].index, inplace=False)
+    lista_note = lista_note_tipo
     #FILTRO SO
     if (pref_so != 'MacOS' and pref_so != 'n/a'):
       lista_note = lista_note_tipo.drop(lista_note_tipo.loc[lista_note_tipo['so'].str.startswith(pref_so)==False].index, inplace=False)
@@ -138,7 +140,9 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       #         =====INÍCIO NOTEBOOK GAMER=====         #
 
   elif (tipo_notebook == 'gamer'):
-
+    lista_note = notebooks_dataframe.drop(notebooks_dataframe.loc[notebooks_dataframe['preco_avista']==0].index, inplace=False)
+    lista_note_tipo = lista_note.drop(lista_note.loc[lista_note[tipo_notebook]==0].index, inplace=False)
+    lista_note = lista_note_tipo
     #FILTRO SO
     if (pref_so != 'n/a'):
       lista_note = lista_note_tipo.drop(lista_note_tipo.loc[lista_note_tipo['so'].str.startswith(pref_so)==False].index, inplace=False)
@@ -215,6 +219,10 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
     #         =====INÍCIO NOTEBOOK TRABALHO/ESTUDO VISUAL=====         #
 
   elif (tipo_notebook == 'trabalho_visual' or tipo_notebook == 'estudos_visual'):
+
+    lista_note = notebooks_dataframe.drop(notebooks_dataframe.loc[notebooks_dataframe['preco_avista']==0].index, inplace=False)
+    lista_note_tipo = lista_note.drop(lista_note.loc[lista_note[tipo_notebook]==0].index, inplace=False)
+    lista_note = lista_note_tipo
     #FILTRO SO
     if (pref_so != 'MacOS' and pref_so != 'n/a'):
       lista_note = lista_note_tipo.drop(lista_note_tipo.loc[lista_note_tipo['so'].str.startswith(pref_so)==False].index, inplace=False)
@@ -297,6 +305,9 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
 
     #         =====INÍCIO NOTEBOOK TRABALHO/ESTUDO VGA=====         #
   elif (tipo_notebook == 'trabalho_vga' or tipo_notebook == 'estudos_vga'):
+    lista_note = notebooks_dataframe.drop(notebooks_dataframe.loc[notebooks_dataframe['preco_avista']==0].index, inplace=False)
+    lista_note_tipo = lista_note.drop(lista_note.loc[lista_note[tipo_notebook]==0].index, inplace=False)
+    lista_note = lista_note_tipo
     #FILTRO SO
     if (pref_so != 'MacOS' and pref_so != 'n/a'):
       lista_note = lista_note_tipo.drop(lista_note_tipo.loc[lista_note_tipo['so'].str.startswith(pref_so)==False].index, inplace=False)
@@ -372,9 +383,96 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
         lista_note = lista_note.loc[lista_note[tipo_pagamento]<=investimento]
       else:
         lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(10)
-        print(lista_note)
+        print('INVESTIMENTO INSUFICIENTE')
     
   #         =====FIM NOTEBOOK TRABALHO/ESTUDO VGA=====         #
+
+  #         =====INÍCIO NOTEBOOK TRABALHO/ESTUDO PERSONALIZADO=====         #
+  elif (tipo_notebook == 'trabalho_cpu' or tipo_notebook == 'trabalho'):
+    lista_note = notebooks_dataframe.drop(notebooks_dataframe.loc[notebooks_dataframe['preco_avista']==0].index, inplace=False)
+    lista_note_tipo = lista_note.drop(lista_note.loc[lista_note[tipo_notebook]==0].index, inplace=False)
+    lista_note = lista_note_tipo
+    #FILTRO SO
+    if (pref_so != 'MacOS' and pref_so != 'n/a'):
+      lista_note = lista_note_tipo.drop(lista_note_tipo.loc[lista_note_tipo['so'].str.startswith(pref_so)==False].index, inplace=False)
+    elif (pref_so == 'MacOS'):
+      lista_note = lista_note_tipo.loc[lista_note_tipo['marca']=='Apple']
+      if (pref_modelo != 'n/a'):
+        pass
+      else:
+        if(len(lista_note.loc[lista_note['linha']==pref_modelo])>0):
+          lista_note = lista_note.loc[lista_note['linha']==pref_modelo]
+        else:
+          pass
+    else:
+      lista_note = lista_note_tipo
+      
+    #CHECA PREFERÊNCIA DE VGA
+    if(pref_vga != 'n/a'):
+      if(len(lista_note.loc[lista_note['vga_dedicaca'].str.startswith(pref_vga)==True])>0):
+        lista_note = lista_note.loc[lista_note['vga_dedicaca'].str.startswith(pref_vga)==True]
+      else:
+        if(len(lista_note.loc[lista_note['vga_dedicaca'].str.startswith('')==True])>0):
+          lista_note = lista_note.loc[lista_note['vga_dedicaca'].str.startswith(pref_vga)==True]
+    else:
+      pass
+    #CHECA PREFERÊNCIA DE CPU    
+    if(pref_cpu != 'n/a'):
+      if(len(lista_note.loc[lista_note['processador'].str.startswith(pref_cpu)==True])>0):
+        lista_note = lista_note.loc[lista_note['processador'].str.startswith(pref_cpu)==True]
+      else:
+        pass
+    else:
+      pass
+    #CHECA PREFERÊNCIA DE RAM
+    if (pref_ram != 'n/a'):
+      if(len(lista_note.loc[lista_note['ram']==pref_ram])>0):
+        lista_note = lista_note.loc[lista_note['ram']==pref_ram]
+      else:
+        pass
+    else:
+      pass
+    #CHECA PREFERÊNCIA DE TELA
+    if (pref_tela != 'n/a'):
+      if(len(lista_note.loc[lista_note['tela_resolucao'].str.startswith(pref_tela)==True])>0):
+        lista_note = lista_note.loc[lista_note['tela_resolucao'].str.startswith(pref_tela)==True]
+      else:
+        pass
+    else:
+      pass
+    #CHECA PREFERÊNCIA DE ARMAZENAMENTO
+    if (pref_armazenamento != 'n/a'):
+      if(len(lista_note.loc[lista_note['ssd']>=pref_armazenamento])>0):
+        lista_note = lista_note.loc[lista_note['ssd']>=pref_armazenamento]
+      else:
+        pass
+    else:
+      pass
+
+    #CHECA OPERAÇÃO(SE PRECISA CONSULTAR PREÇO OU PEDIR RECOMENDAÇÃO)
+    if tipo_operacao == 'consulta_preco':
+      menor_valor_avista = str(lista_note.sort_values(by='preco_avista', ascending = True).head(1)['preco_avista'])
+      menor_valor_aprazo = str(lista_note.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])
+      id_menor_avista = str(lista_note.sort_values(by='preco_avista', ascending = True).head(1)['ID'])
+      id_menor_aprazo = str(lista_note.sort_values(by='preco_aprazo', ascending = True).head(1)['ID'])
+      
+      correcao(menor_valor_avista,menor_valor_aprazo)
+      lista_notebooks_precos.append(menor_valor_avista)
+      lista_notebooks_precos.append(menor_valor_avista_str)
+      lista_notebooks_precos.append(menor_valor_aprazo)
+      lista_notebooks_precos.append(menor_valor_aprazo_str)
+      lista_notebooks_precos.append(id_menor_avista)
+      lista_notebooks_precos.append(id_menor_aprazo)
+    else:
+      if(len(lista_note.loc[lista_note[tipo_pagamento]<=investimento])>0):
+        lista_note = lista_note.loc[lista_note[tipo_pagamento]<=investimento]
+      else:
+        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(10)
+        print('INVESTIMENTO INSUFICIENTE')
+    
+  #         =====FIM NOTEBOOK TRABALHO/ESTUDO PERSONALIZADO=====         #
+
+
 
 def ajuste_dataframe():
   global notebook_dado,lista
@@ -442,7 +540,7 @@ def ajuste_dataframe():
   loja_avista = str(notebook_dado['loja_avista'])
   lista.append(loja_avista.split('Name')[0][5:-1].strip(" "))
 
-  loja_aprazo = str(notebook_dado['loja_avista'])
+  loja_aprazo = str(notebook_dado['loja_aprazo'])
   lista.append(loja_aprazo.split('Name')[0][5:-1].strip(" "))
 
   
