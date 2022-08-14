@@ -1,10 +1,17 @@
-from ConexaoBDHeroku import notebooks_dataframe
+#from ConexaoBDHeroku import notebooks_dataframe
+import mysql.connector
+import pandas as pd
+import os
 
 lista,lista_notebooks_precos,lista_note,precos_note = [],[],[],{}
 menor_valor_avista,menor_valor_aprazo = 0, 0
 menor_valor_avista_str,menor_valor_aprazo_str,notebook_dado = '','',''
 
-#COLETA O NOTEBOOK MAIS BARATO
+db_host = os.environ['heroku_db_host']
+db_name = os.environ['heroku_db']
+db_secret = os.environ['heroku_db_password']
+db_username = os.environ['heroku_db_username']
+
 def menor_valor(tipo_pagamento):
   global lista_note, notebook_dado
   print(lista_note)
@@ -31,6 +38,25 @@ def maior_performance():
 def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazenamento,pref_so,pref_tela,tipo_notebook, pref_modelo,investimento,tipo_pagamento):
   
   global lista_note, notebooks_dataframe,menor_valor_avista,menor_valor_aprazo,menor_valor_avista_str,menor_valor_aprazo_str, lista_notebooks_precos, precos_note
+
+  #CRIAÇÃO CONEXÃO DB
+  con2 = mysql.connector.connect(host=db_host,
+                                     database=db_name,
+                                     user=db_username,
+                                     password=db_secret)
+  cursor = con2.cursor()
+  #CONCLUSÃO CONEXÃO DB
+    
+  #PUXANDO TODO A TABELA DE NOTEBOOKS PARA UM DATAFRAME
+  notebooks_dataframe = pd.read_sql('select * from notebooks where ram >4 and disponibilidade = 1 and preco_aprazo > 0;', con=con2)
+  #Limpando quantidade total de caracteres em coluna do dataframe
+  pd.set_option('display.max_colwidth', None)
+  #Filtrando as colunas necessárias no dataframe
+  notebooks_dataframe = notebooks_dataframe[['ID','marca','modelo','linha','serie','ram','processador','vga_dedicaca','tela','tela_resolucao','ssd','hd','so','trabalho','trabalho_cpu','dia_dia','trabalho_simples','estudos_simples','trabalho_vga','estudos_vga','trabalho_visual','estudos_visual','gamer','performance','preco_avista','preco_aprazo','beneficio_avista','beneficio_aprazo','link_avista','link_aprazo','loja_avista','loja_aprazo']]
+  
+  #FINALIZAÇÃO CONEXÃO BD
+  cursor.close()
+  con2.close()
 
   def correcao(valor_avista, valor_aprazo):
     global menor_valor_avista,menor_valor_aprazo,menor_valor_avista_str,menor_valor_aprazo_str
@@ -129,7 +155,7 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       if(len(lista_note.loc[lista_note[tipo_pagamento]<=investimento])>0):
         lista_note = lista_note.loc[lista_note[tipo_pagamento]<=investimento]
       else:
-        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(10)
+        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(5)
         print(lista_note)
     
       #         =====FIM NOTEBOOK BÁSICO=====         #
@@ -206,7 +232,7 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       if(len(lista_note.loc[lista_note[tipo_pagamento]<=investimento])>0):
         lista_note = lista_note.loc[lista_note[tipo_pagamento]<=investimento]
       else:
-        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(10)
+        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(5)
         print(lista_note)
 
 
@@ -229,12 +255,12 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
     elif (pref_so == 'MacOS'):
       lista_note = lista_note_tipo.loc[lista_note_tipo['marca']=='Apple']
       if (pref_modelo != 'n/a'):
-        pass
-      else:
         if(len(lista_note.loc[lista_note['linha']==pref_modelo])>0):
           lista_note = lista_note.loc[lista_note['linha']==pref_modelo]
         else:
           pass
+      else:
+        pass
     else:
       lista_note = lista_note_tipo
     #CHECA PREFERÊNCIA DE VGA
@@ -297,7 +323,7 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       if(len(lista_note.loc[lista_note[tipo_pagamento]<=investimento])>0):
         lista_note = lista_note.loc[lista_note[tipo_pagamento]<=investimento]
       else:
-        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(10)
+        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(5)
         print(lista_note)
 
     #         =====FIM NOTEBOOK TRABALHO/ESTUDO VISUAL=====         #
@@ -314,12 +340,12 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
     elif (pref_so == 'MacOS'):
       lista_note = lista_note_tipo.loc[lista_note_tipo['marca']=='Apple']
       if (pref_modelo != 'n/a'):
-        pass
-      else:
         if(len(lista_note.loc[lista_note['linha']==pref_modelo])>0):
           lista_note = lista_note.loc[lista_note['linha']==pref_modelo]
         else:
           pass
+      else:
+        pass
     else:
       lista_note = lista_note_tipo
       
@@ -382,7 +408,7 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       if(len(lista_note.loc[lista_note[tipo_pagamento]<=investimento])>0):
         lista_note = lista_note.loc[lista_note[tipo_pagamento]<=investimento]
       else:
-        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(10)
+        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(5)
         print('INVESTIMENTO INSUFICIENTE')
     
   #         =====FIM NOTEBOOK TRABALHO/ESTUDO VGA=====         #
@@ -398,12 +424,12 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
     elif (pref_so == 'MacOS'):
       lista_note = lista_note_tipo.loc[lista_note_tipo['marca']=='Apple']
       if (pref_modelo != 'n/a'):
-        pass
-      else:
         if(len(lista_note.loc[lista_note['linha']==pref_modelo])>0):
           lista_note = lista_note.loc[lista_note['linha']==pref_modelo]
         else:
           pass
+      else:
+        pass
     else:
       lista_note = lista_note_tipo
       
@@ -412,8 +438,7 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       if(len(lista_note.loc[lista_note['vga_dedicaca'].str.startswith(pref_vga)==True])>0):
         lista_note = lista_note.loc[lista_note['vga_dedicaca'].str.startswith(pref_vga)==True]
       else:
-        if(len(lista_note.loc[lista_note['vga_dedicaca'].str.startswith('')==True])>0):
-          lista_note = lista_note.loc[lista_note['vga_dedicaca'].str.startswith(pref_vga)==True]
+        pass
     else:
       pass
     #CHECA PREFERÊNCIA DE CPU    
@@ -467,7 +492,7 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       if(len(lista_note.loc[lista_note[tipo_pagamento]<=investimento])>0):
         lista_note = lista_note.loc[lista_note[tipo_pagamento]<=investimento]
       else:
-        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(10)
+        lista_note = lista_note.sort_values(by=tipo_pagamento, ascending = True).head(5)
         print('INVESTIMENTO INSUFICIENTE')
     
   #         =====FIM NOTEBOOK TRABALHO/ESTUDO PERSONALIZADO=====         #
