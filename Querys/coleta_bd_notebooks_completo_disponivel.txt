@@ -1,0 +1,1 @@
+SELECT * FROM notebooks WHERE disponibilidade = 1 and preco_aprazo > 0 and preco_avista > 0;

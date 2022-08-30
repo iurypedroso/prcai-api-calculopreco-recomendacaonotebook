@@ -1,33 +1,4 @@
-from gevent import monkey
-
-monkey.patch_all()
-
-from flask import Flask, request
-import ConsultaPrecoNotebook, Classes.Notebooks
-from gevent.pywsgi import WSGIServer
-from ConsultaPrecoNotebook import lista_notebooks_precos
-import Funcoes.Menor_Valor,Funcoes.Custo_Beneficio,Funcoes.Maior_Performance,Funcoes.Ajustar_Dataframe
-import json
-import Applications.RecomendacaoNotebook
-
-app = Flask('__name__')
-app.config['JSON_AS_ASCII'] = False
-app.debug = True
-notebook_beneficio, notebook_potente = '', ''
-
-
-@app.route('/')
-def welcome():
-    return 'THE API IS RUNNING!'
-
-
-@app.route('/prcai_recomendacao_notebooks', methods=['POST'])
-def resultado():
-  return Applications.RecomendacaoNotebook.consulta_notebook(request.json)
-
-
-@app.route('/prcai_checagem_preco_notebook', methods=['POST'])
-def coleta_preco():
+def coleta_preco(body):
 
     body = request.json
     pref = (body['pref'])
@@ -64,6 +35,3 @@ def coleta_preco():
     }
 
     return (dicio)
-
-http_server = WSGIServer(('0.0.0.0', 8080), app)
-http_server.serve_forever()
