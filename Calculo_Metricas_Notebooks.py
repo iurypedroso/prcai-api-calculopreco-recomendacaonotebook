@@ -1,6 +1,6 @@
 import Classes.Conexao_Banco
 from funcoes import calculo_media
-lista,lista_notebooks_precos,resul_pesq_usuario,precos_note = [],[],[],{}
+lista_notebooks_precos,resul_pesq_usuario = [],[]
 menor_valor_avista,menor_valor_aprazo = 0, 0
 menor_valor_avista_str,menor_valor_aprazo_str,result_filtro_tipo_recom = '','',''
 import Funcoes.Conv_FloatBRL
@@ -8,7 +8,7 @@ import Funcoes.DistanciaEuclidiana
 
 def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazenamento,pref_so,pref_tela,tipo_notebook, pref_modelo,investimento,tipo_pagamento):
   
-  global resul_pesq_usuario, notebooks_dataframe,menor_valor_avista,menor_valor_aprazo,menor_valor_avista_str,menor_valor_aprazo_str, lista_notebooks_precos, precos_note
+  global resul_pesq_usuario, notebooks_dataframe,menor_valor_avista,menor_valor_aprazo,menor_valor_avista_str,menor_valor_aprazo_str, lista_notebooks_precos
 
   Database = Classes.Conexao_Banco.Database()
   notebooks_dataframe = Database.coleta_banco_completo()

@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+
 def euclidiana(melhor_maquina,dataframe):
   data = []
   for i in dataframe.index:
