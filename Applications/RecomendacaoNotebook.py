@@ -1,9 +1,12 @@
-import Funcoes.Menor_Valor,Funcoes.Custo_Beneficio,Funcoes.Maior_Performance,Funcoes.Ajustar_Dataframe
 import json
-import ConsultaPrecoNotebook, Classes.Notebooks
+from ConsultaPrecoNotebook import coletar_preco
+from Funcoes.Ajustar_Dataframe import ajuste_dataframe
+from Funcoes.Menor_Valor import menor_valor
+from Funcoes.Custo_Beneficio import custo_beneficio
+from Funcoes.Maior_Performance import maior_performance
+from Classes.Notebooks import Notebook
 
-def consulta_notebook(body):
-    global notebook_barato, notebook_beneficio, notebook_potente, notebook_barato_json, notebook_beneficio_json, notebook_potente_json
+def recomendacao_notebook(body):
   
     pref = (body['pref'])
     tipo_notebook = (body['tipo_notebook'])
@@ -34,16 +37,16 @@ def consulta_notebook(body):
         tipo_pagamento = 'preco_avista'
     else:
         tipo_pagamento = 'preco_aprazo'
-    ConsultaPrecoNotebook.coletar_preco('outros', pref, pref_ram,
+    coletar_preco('outros', pref, pref_ram,
                                         pref_cpu, pref_vga, pref_armazenamento,
                                         pref_so, pref_tela, tipo_notebook,
                                         pref_modelo, investimento,
                                         tipo_pagamento)
 
     #NOTEBOOK MAIS BARATO
-    lista = Funcoes.Ajustar_Dataframe.ajuste_dataframe(Funcoes.Menor_Valor.menor_valor(tipo_pagamento))
+    lista = ajuste_dataframe(menor_valor(tipo_pagamento))
 
-    notebook_barato = Classes.Notebooks.Notebook(lista[0],lista[1],lista[2],lista[3],
+    notebook_barato = Notebook(lista[0],lista[1],lista[2],lista[3],
                                        lista[4],lista[5],lista[6],lista[7],
                                        lista[8],lista[9],lista[10],
                                        lista[11],lista[12],lista[13],
@@ -51,8 +54,8 @@ def consulta_notebook(body):
     notebook_barato_json = json.loads(json.dumps(notebook_barato.__dict__))
     lista.clear()
     #NOTEBOOK CUSTO BENEFÍCIO
-    lista = Funcoes.Ajustar_Dataframe.ajuste_dataframe(Funcoes.Custo_Beneficio.custo_beneficio(tipo_pagamento))
-    notebook_beneficio = Classes.Notebooks.Notebook(lista[0], lista[1], lista[2],
+    lista = ajuste_dataframe(custo_beneficio(tipo_pagamento))
+    notebook_beneficio = Notebook(lista[0], lista[1], lista[2],
                                           lista[3], lista[4], lista[5],
                                           lista[6], lista[7], lista[8],
                                           lista[9], lista[10], lista[11],
@@ -63,8 +66,8 @@ def consulta_notebook(body):
     lista.clear()
 
     #NOTEBOOK MELHOR PERFORMANCE
-    lista = Funcoes.Ajustar_Dataframe.ajuste_dataframe(Funcoes.Maior_Performance.maior_performance())
-    notebook_performance = Classes.Notebooks.Notebook(lista[0], lista[1], lista[2],
+    lista = ajuste_dataframe(maior_performance())
+    notebook_performance = Notebook(lista[0], lista[1], lista[2],
                                             lista[3], lista[4], lista[5],
                                             lista[6], lista[7], lista[8],
                                             lista[9], lista[10], lista[11],

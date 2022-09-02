@@ -1,69 +1,30 @@
 from gevent import monkey
+from flask import Flask, request
+from gevent.pywsgi import WSGIServer
+from Applications.RecomendacaoNotebook import recomendacao_notebook
+from Applications.Coleta_Preco_Notebook import coletar_menor_preco_notebook
 
 monkey.patch_all()
-
-from flask import Flask, request
-import ConsultaPrecoNotebook, Classes.Notebooks
-from gevent.pywsgi import WSGIServer
-from ConsultaPrecoNotebook import lista_notebooks_precos
-import Funcoes.Menor_Valor,Funcoes.Custo_Beneficio,Funcoes.Maior_Performance,Funcoes.Ajustar_Dataframe
-import json
-import Applications.RecomendacaoNotebook
-
 app = Flask('__name__')
 app.config['JSON_AS_ASCII'] = False
 app.debug = True
-notebook_beneficio, notebook_potente = '', ''
 
 
 @app.route('/')
 def welcome():
-    return 'THE API IS RUNNING!'
+  return 'THE API IS RUNNING!'
 
 
 @app.route('/prcai_recomendacao_notebooks', methods=['POST'])
 def resultado():
-  return Applications.RecomendacaoNotebook.consulta_notebook(request.json)
+  return recomendacao_notebook(request.json)
 
 
 @app.route('/prcai_checagem_preco_notebook', methods=['POST'])
 def coleta_preco():
+  return coletar_menor_preco_notebook(request.json)
 
-    body = request.json
-    pref = (body['pref'])
-    tipo_notebook = (body['tipo_notebook'])
-    pref_modelo = (body['pref_modelo'])
-    validacao_ram = (body['pref_ram'])
-    if (validacao_ram == 'n/a'):
-        pref_ram = 'n/a'
-    else:
-        pref_ram = int(validacao_ram)
-    pref_cpu = (body['pref_cpu'])
-    validacao_armazenamento = (body['pref_armazenamento'])
-    if (validacao_armazenamento == 'n/a'):
-        pref_armazenamento = 'n/a'
-    else:
-        pref_armazenamento = int(validacao_armazenamento)
-    pref_so = (body['pref_so'])
-    pref_vga = (body['pref_vga'])
-    pref_tela = (body['pref_tela'])
 
-    ConsultaPrecoNotebook.coletar_preco('consulta_preco', pref, pref_ram,
-                                        pref_cpu, pref_vga, pref_armazenamento,
-                                        pref_so, pref_tela, tipo_notebook,
-                                        pref_modelo, 'sem_investimento',
-                                        'sem_tipo_pagamento')
-
-    dicio = {
-        'avista': lista_notebooks_precos[0],
-        'avista_str': lista_notebooks_precos[1],
-        'aprazo': lista_notebooks_precos[2],
-        'aprazo_str': lista_notebooks_precos[3],
-        'id_menor_avisa': lista_notebooks_precos[4],
-        'id_menor_aprazo': lista_notebooks_precos[5],
-    }
-
-    return (dicio)
 
 http_server = WSGIServer(('0.0.0.0', 8080), app)
 http_server.serve_forever()

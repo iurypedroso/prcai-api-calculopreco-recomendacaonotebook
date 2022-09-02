@@ -1,6 +1,7 @@
-def coleta_preco(body):
+from ConsultaPrecoNotebook import coletar_preco
 
-    body = request.json
+def coletar_menor_preco_notebook(body):
+    from ConsultaPrecoNotebook import lista_notebooks_precos
     pref = (body['pref'])
     tipo_notebook = (body['tipo_notebook'])
     pref_modelo = (body['pref_modelo'])
@@ -19,7 +20,7 @@ def coleta_preco(body):
     pref_vga = (body['pref_vga'])
     pref_tela = (body['pref_tela'])
 
-    ConsultaPrecoNotebook.coletar_preco('consulta_preco', pref, pref_ram,
+    coletar_preco('consulta_preco', pref, pref_ram,
                                         pref_cpu, pref_vga, pref_armazenamento,
                                         pref_so, pref_tela, tipo_notebook,
                                         pref_modelo, 'sem_investimento',
