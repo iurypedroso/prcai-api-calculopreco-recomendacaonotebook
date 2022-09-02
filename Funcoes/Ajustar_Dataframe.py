@@ -1,7 +1,7 @@
-lista = []
+
 
 def ajuste_dataframe(result_filtro_tipo_recom):
-  global lista
+  lista = []
   id = str(result_filtro_tipo_recom['ID'])
   lista.append(str(id.split('Name')[0][5:-1].strip(" ")))
   

@@ -1,7 +1,7 @@
-from ConsultaPrecoNotebook import coletar_preco
+from Calculo_Metricas_Notebooks import coletar_preco
+from Calculo_Metricas_Notebooks import lista_notebooks_precos
 
 def coletar_menor_preco_notebook(body):
-    from ConsultaPrecoNotebook import lista_notebooks_precos
     pref = (body['pref'])
     tipo_notebook = (body['tipo_notebook'])
     pref_modelo = (body['pref_modelo'])

@@ -1,5 +1,5 @@
 import json
-from ConsultaPrecoNotebook import coletar_preco
+from Calculo_Metricas_Notebooks import coletar_preco
 from Funcoes.Ajustar_Dataframe import ajuste_dataframe
 from Funcoes.Menor_Valor import menor_valor
 from Funcoes.Custo_Beneficio import custo_beneficio
