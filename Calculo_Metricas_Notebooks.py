@@ -70,41 +70,14 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       pass
 
     
-    #  CHECAR DADOS
-    # melhor_cpu = float(str(resul_pesq_usuario.sort_values(by='processador_performance', ascending=False).head(1)['processador_performance']).split('Name')[0][5:-1].strip(" "))
-    # melhor_cpu_nome =str(resul_pesq_usuario.sort_values(by='processador_performance', ascending=False).head(1)['processador']).split('Name')[0][5:-1].strip(" ")
-    # melhor_ram = float(str(resul_pesq_usuario.sort_values(by='ram', ascending=False).head(1)['ram']).split('Name')[0][5:-1].strip(" "))
-    # melhor_ram_quantidade = float(str(resul_pesq_usuario.sort_values(by='ram', ascending=False).head(1)['ram']).split('Name')[0][5:-1].strip(" "))
-    # melhor_vga = float(str(resul_pesq_usuario.sort_values(by='vga_performance', ascending=False).head(1)['vga_performance']).split('Name')[0][5:-1].strip(" "))
-    # melhor_vga_modelo =str(resul_pesq_usuario.sort_values(by='vga_performance', ascending=False).head(1)['vga_dedicaca']).split('Name')[0][5:-1].strip(" ")
-    # melhor_ssd = float(str(resul_pesq_usuario.sort_values(by='ssd', ascending=False).head(1)['ssd']).split('Name')[0][5:-1].strip(" "))
-    # melhor_performance = float(str(resul_pesq_usuario.sort_values(by='performance', ascending=False).head(1)['performance']).split('Name')[0][5:-1].strip(" "))
-    # melhor_performance_valor = float(str(resul_pesq_usuario.sort_values(by='performance', ascending=False).head(1)['performance']).split('Name')[0][5:-1].strip(" "))
-    # maior_tela = float(str(resul_pesq_usuario.sort_values(by='tela', ascending=False).head(1)['tela']).split('Name')[0][5:-1].strip(" "))
-    # melhor_resolucao = float(8294)
-    
-    # print('CPU: '+melhor_cpu_nome)
-    # print('RAM: '+str(melhor_ram_quantidade))
-    # print('VGA: '+melhor_vga_modelo)
-    # print('SSD: '+str(melhor_ssd))
-    # print('MAIS POTENTE: '+str(melhor_performance_valor))
-    
-    # melhor_maquina = np.array((melhor_cpu,melhor_ram,melhor_vga,melhor_resolucao,melhor_ssd,melhor_performance))
-    # print(melhor_maquina)
-    # resul_pesq_usuario = Funcoes.DistanciaEuclidiana.euclidiana(melhor_maquina,resul_pesq_usuario)
-
-    
     #CHECA OPERAÇÃO(SE PRECISA CONSULTAR PREÇO OU PEDIR RECOMENDAÇÃO)
     if tipo_operacao == 'consulta_preco':
       lista_notebooks_precos.append(correcao_valor_avista_float(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['preco_avista'])))
       lista_notebooks_precos.append(correcao_valor_avista_str(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['preco_avista'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_float(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_str(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']))
-    elif tipo_operacao == 'media_valores':
-      print('entrou')
-      calculo_media(resul_pesq_usuario)
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
     else:
       if(len(resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento])>0):
         resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento]
@@ -332,8 +305,8 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       lista_notebooks_precos.append(correcao_valor_avista_str(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['preco_avista'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_float(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_str(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']))
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
     else:
       if(len(resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento])>0):
         resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento]
@@ -417,8 +390,8 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       lista_notebooks_precos.append(correcao_valor_avista_str(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['preco_avista'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_float(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_str(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']))
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
     else:
       if(len(resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento])>0):
         resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento]
@@ -496,8 +469,8 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       lista_notebooks_precos.append(correcao_valor_avista_str(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['preco_avista'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_float(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_str(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']))
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
     else:
       if(len(resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento])>0):
         resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento]
@@ -574,8 +547,8 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
       lista_notebooks_precos.append(correcao_valor_avista_str(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['preco_avista'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_float(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
       lista_notebooks_precos.append(correcao_valor_aprazo_str(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['preco_aprazo'])))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']))
-      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']))
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_avista', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
+      lista_notebooks_precos.append(str(resul_pesq_usuario.sort_values(by='preco_aprazo', ascending = True).head(1)['ID']).split('Name')[0][5:-1].strip(" "))
     else:
       if(len(resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento])>0):
         resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario[tipo_pagamento]<=investimento]
