@@ -10,7 +10,7 @@ def euclidiana(melhor_maquina,dataframe):
     processador = float(dataframe['processador_performance'][i])
     ram = float(dataframe['ram'][i])
     vga = float(dataframe['vga_performance'][i])
-    tela = float(dataframe['tela'][i])
+
     if (dataframe['tela_resolucao'][i] == '4K'):
       tela_resolucao = 8294
     elif (dataframe['tela_resolucao'][i] == 'Full HD+'):
@@ -28,10 +28,3 @@ def euclidiana(melhor_maquina,dataframe):
     data.append([id,marca,modelo,ram, processador,vga,tela_resolucao,ssd,resultado])
   df = pd.DataFrame(data,columns=['ID','Marca','Moelo','RAM','CPU','VGA','Resolucao','SSD','Similaridade'])
   print(df.sort_values(by='Similaridade', ascending = False))
-def getSimilares(melhor_maquina, dataframe):
-
-  similaridade = [(euclidiana(melhor_maquina, outras_maquinas),outras_maquinas)
-                        for outras_maquinas in dataframe]
-  similaridade.sort()
-  similaridade.reverse()
-  return similaridade.head(5)
