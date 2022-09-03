@@ -1,9 +1,9 @@
 import json
 from Calculo_Metricas_Notebooks import coletar_preco
 from Funcoes.Ajustar_Dataframe import ajuste_dataframe
-from Funcoes.Menor_Valor import menor_valor
-from Funcoes.Custo_Beneficio import custo_beneficio
-from Funcoes.Maior_Performance import maior_performance
+from Funcoes.Recomendacao_Notebook.Maior_Performance import maior_performance
+from Funcoes.Recomendacao_Notebook.Melhor_Custo_Beneficio import custo_beneficio
+from Funcoes.Recomendacao_Notebook.Menor_Valor import menor_valor
 from Classes.Notebooks import Notebook
 
 def recomendacao_notebook(body):

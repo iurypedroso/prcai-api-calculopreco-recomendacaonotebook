@@ -4,7 +4,6 @@ lista_notebooks_precos,resul_pesq_usuario = [],[]
 menor_valor_avista,menor_valor_aprazo = 0, 0
 menor_valor_avista_str,menor_valor_aprazo_str,result_filtro_tipo_recom = '','',''
 from Funcoes.Conversoes.FloatxBRL import correcao_valor_avista_float,correcao_valor_avista_str,correcao_valor_aprazo_float,correcao_valor_aprazo_str
-import Funcoes.DistanciaEuclidiana
 
 def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazenamento,pref_so,pref_tela,tipo_notebook, pref_modelo,investimento,tipo_pagamento):
   

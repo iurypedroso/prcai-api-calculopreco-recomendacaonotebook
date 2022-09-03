@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 def maior_performance():
   from Calculo_Metricas_Notebooks import resul_pesq_usuario
-  from Funcoes import Maior_Performance
   data = []
   # resultado_maior_performance = resul_pesq_usuario.sort_values(by='performance', ascending=False)
   # return resultado_maior_performance.head(1)
@@ -50,4 +49,5 @@ def maior_performance():
     data.append([id,marca,modelo,ram, processador,vga,tela_resolucao,ssd,resultado])
   #CONVERTER LISTA DE NOTEBOOKS, EM DATAFRAME COM AS INFORMAÇÕES    
   df = pd.DataFrame(data,columns=['ID','Marca','Moelo','RAM','CPU','VGA','Resolucao','SSD','Similaridade'])
-  print(df.sort_values(by='Similaridade', ascending = False))
+
+  return resul_pesq_usuario.loc[resul_pesq_usuario['ID']==int(str(df.sort_values(by='Similaridade', ascending = False)['ID'].head(1)).split('Name')[0][5:-1].strip(" ").replace('.0',''))]
