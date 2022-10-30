@@ -1,7 +1,9 @@
 from Calculo_Metricas_Notebooks import coletar_preco
 from Calculo_Metricas_Notebooks import lista_notebooks_precos
+from Classes.InputUsuario import InputUsuario
 
-def coletar_menor_preco_notebook(body):
+def ColetarMenorPrecoNotebook(body):
+    NotebookUsuario = InputUsuario(body)
     pref = (body['pref'])
     tipo_notebook = (body['tipo_notebook'])
     pref_modelo = (body['pref_modelo'])

@@ -2,7 +2,7 @@ from gevent import monkey
 from flask import Flask, request
 from gevent.pywsgi import WSGIServer
 from Applications.RecomendacaoNotebook import recomendacao_notebook
-from Applications.Coleta_Preco_Notebook import coletar_menor_preco_notebook
+from Applications.Coleta_Preco_Notebook import ColetarMenorPrecoNotebook
 
 monkey.patch_all()
 app = Flask('__name__')
@@ -22,7 +22,7 @@ def resultado():
 
 @app.route('/prcai_checagem_preco_notebook', methods=['POST'])
 def coleta_preco():
-  return coletar_menor_preco_notebook(request.json)
+  return ColetarMenorPrecoNotebook(request.json)
 
 
 
