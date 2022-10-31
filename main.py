@@ -3,6 +3,7 @@ from flask import Flask, request
 from gevent.pywsgi import WSGIServer
 from Applications.RecomendacaoNotebook import recomendacao_notebook
 from Applications.Coleta_Preco_Notebook import ColetarMenorPrecoNotebook
+from Calculo_Metricas_Notebooks import coletar_preco
 
 monkey.patch_all()
 app = Flask('__name__')
@@ -22,7 +23,10 @@ def resultado():
 
 @app.route('/prcai_checagem_preco_notebook', methods=['POST'])
 def coleta_preco():
-  return ColetarMenorPrecoNotebook(request.json)
+  NotebookUsuario = InputUsuario(request.json)
+  coletar_preco('consulta_preco', NotebookUsuario)
+  
+  # return ColetarMenorPrecoNotebook(request.json)
 
 
 

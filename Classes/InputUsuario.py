@@ -10,6 +10,8 @@ class InputUsuario():
     self.so = inputUsuario['pref_so']
     self.vga = inputUsuario['pref_vga']
     self.tela = inputUsuario['pref_tela']
+    self.tipo_pagamento = 'sem_tipo_pagamento'
+    self.investimento = 'sem_investimento'
 
   def SetRam(self,inputUsuario):
     if (inputUsuario['pref_ram'] == 'n/a'):
@@ -22,5 +24,8 @@ class InputUsuario():
       return 'n/a'
     else:
       return int(inputUsuario['pref_armazenamento'])
+
+  def SetTipoPagamento(self):
+    
     
     
