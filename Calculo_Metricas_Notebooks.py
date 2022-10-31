@@ -6,7 +6,7 @@ menor_valor_avista_str,menor_valor_aprazo_str,result_filtro_tipo_recom = '','','
 import Funcoes.Conv_FloatBRL
 import Funcoes.DistanciaEuclidiana
 
-def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazenamento,pref_so,pref_tela,tipo_notebook, pref_modelo,investimento,tipo_pagamento):
+def coletar_preco(tipo_operacao, NotebookUsuario):
   
   global resul_pesq_usuario, notebooks_dataframe,menor_valor_avista,menor_valor_aprazo,menor_valor_avista_str,menor_valor_aprazo_str, lista_notebooks_precos
 
@@ -15,22 +15,22 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
     
   lista_notebooks_precos.clear()
   resul_pesq_usuario=notebooks_dataframe
-  lista_note_tipo = resul_pesq_usuario.drop(resul_pesq_usuario.loc[resul_pesq_usuario[tipo_notebook]==0].index, inplace=False)
+  lista_note_tipo = resul_pesq_usuario.drop(resul_pesq_usuario.loc[resul_pesq_usuario[NotebookUsuario.tipo_notebook]==0].index, inplace=False)
   resul_pesq_usuario = lista_note_tipo
 
   #         =====INICIO NOTEBOOK BÁSICO=====         #
-  if(tipo_notebook == 'dia_dia' or tipo_notebook == 'trabalho_simples' or tipo_notebook == 'estudos_simples'): #RAM, CPU, SSD
+  if(NotebookUsuario.tipo_notebook == 'dia_dia' or NotebookUsuario.tipo_notebook == 'trabalho_simples' or NotebookUsuario.tipo_notebook == 'estudos_simples'): #RAM, CPU, SSD
     resul_pesq_usuario = notebooks_dataframe.drop(notebooks_dataframe.loc[notebooks_dataframe['preco_avista']==0].index, inplace=False)
-    lista_note_tipo = resul_pesq_usuario.drop(resul_pesq_usuario.loc[resul_pesq_usuario[tipo_notebook]==0].index, inplace=False)
+    lista_note_tipo = resul_pesq_usuario.drop(resul_pesq_usuario.loc[resul_pesq_usuario[NotebookUsuario.tipo_notebook]==0].index, inplace=False)
     resul_pesq_usuario = lista_note_tipo
     #FILTRO SO
-    if (pref_so != 'MacOS' and pref_so != 'n/a'):
-      resul_pesq_usuario = lista_note_tipo.drop(lista_note_tipo.loc[lista_note_tipo['so'].str.startswith(pref_so)==False].index, inplace=False)
-    elif (pref_so == 'MacOS'):
+    if (NotebookUsuario.pref_so != 'MacOS' and NotebookUsuario.pref_so != 'n/a'):
+      resul_pesq_usuario = lista_note_tipo.drop(lista_note_tipo.loc[lista_note_tipo['so'].str.startswith(NotebookUsuario.so)==False].index, inplace=False)
+    elif (NotebookUsuario.so == 'MacOS'):
       resul_pesq_usuario = lista_note_tipo.loc[lista_note_tipo['marca']=='Apple']
-      if (pref_modelo != 'n/a'):
-        if(len(resul_pesq_usuario.loc[resul_pesq_usuario['linha']==pref_modelo])>0):
-          resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['linha']==pref_modelo]
+      if (NotebookUsuario.pref_modelo != 'n/a'):
+        if(len(resul_pesq_usuario.loc[resul_pesq_usuario['linha']==NotebookUsuario.pref_modelo])>0):
+          resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['linha']==NotebookUsuario.pref_modelo]
         else:
           pass
       else:
@@ -38,33 +38,33 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
     else:
       resul_pesq_usuario = lista_note_tipo
      #CHECA SE TEM PREFERÊNCIA DE CPU OU NÃO
-    if(pref_cpu != 'n/a'):
-      if (len(resul_pesq_usuario.loc[resul_pesq_usuario['processador'].str.startswith(pref_cpu)==True])>0):
-        resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['processador'].str.startswith(pref_cpu)==True]
+    if(NotebookUsuario.cpu != 'n/a'):
+      if (len(resul_pesq_usuario.loc[resul_pesq_usuario['processador'].str.startswith(NotebookUsuario.cpu)==True])>0):
+        resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['processador'].str.startswith(NotebookUsuario.cpu)==True]
       else:
         pass 
     else:
       pass
     #CHECA SE TEM PREFERÊNCIA DE RAM OU NÃO
-    if(pref_ram != 'n/a'):
-      if(len(resul_pesq_usuario.loc[resul_pesq_usuario['ram']==pref_ram])>0):
-        resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['ram']==pref_ram]
+    if(NotebookUsuario.ram != 'n/a'):
+      if(len(resul_pesq_usuario.loc[resul_pesq_usuario['ram']==NotebookUsuario.ram])>0):
+        resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['ram']==NotebookUsuario.ram]
       else:
         pass
     else:
       pass
     #CHECA SE TEM PREFERÊNCIA DE TELA OU NÃO
-    if(pref_tela != 'n/a'):
-      if(len(resul_pesq_usuario.loc[resul_pesq_usuario['tela_resolucao']==pref_tela])>0):
-        resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['tela_resolucao']==pref_tela]
+    if(NotebookUsuario.tela != 'n/a'):
+      if(len(resul_pesq_usuario.loc[resul_pesq_usuario['tela_resolucao']==NotebookUsuario.tela])>0):
+        resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['tela_resolucao']==NotebookUsuario.tela]
       else:
         pass
     else:
       pass
     #CHECA SE TEM PREFERÊNCIA DE ARMAZENAMENTO OU NÃO
-    if(pref_armazenamento != 'n/a'):
-      if(len(resul_pesq_usuario.loc[resul_pesq_usuario['ssd']>=pref_armazenamento])>0):
-        resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['ssd']>=pref_armazenamento]
+    if(NotebookUsuario.armazenamento != 'n/a'):
+      if(len(resul_pesq_usuario.loc[resul_pesq_usuario['ssd']>=NotebookUsuario.armazenamento])>0):
+        resul_pesq_usuario = resul_pesq_usuario.loc[resul_pesq_usuario['ssd']>=NotebookUsuario.armazenamento]
       else:
         pass
     else:
@@ -124,9 +124,9 @@ def coletar_preco(tipo_operacao,pref,pref_ram, pref_cpu,pref_vga,pref_armazename
     
       #         =====INÍCIO NOTEBOOK GAMER=====         #
 
-  elif (tipo_notebook == 'gamer'):
+  elif (NotebookUsuario.tipo_notebook == 'gamer'):
     resul_pesq_usuario = notebooks_dataframe.drop(notebooks_dataframe.loc[notebooks_dataframe['preco_avista']==0].index, inplace=False)
-    lista_note_tipo = resul_pesq_usuario.drop(resul_pesq_usuario.loc[resul_pesq_usuario[tipo_notebook]==0].index, inplace=False)
+    lista_note_tipo = resul_pesq_usuario.drop(resul_pesq_usuario.loc[resul_pesq_usuario[NotebookUsuario.tipo_notebook]==0].index, inplace=False)
     resul_pesq_usuario = lista_note_tipo
     #FILTRO SO
     if (pref_so != 'n/a'):

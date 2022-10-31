@@ -4,9 +4,9 @@ class InputUsuario():
     self.pref = inputUsuario['pref']
     self.tipo_notebook = inputUsuario['tipo_notebook']
     self.pref_modelo = inputUsuario['pref_modelo']
-    self.ram = SetRam(inputUsuario)
+    self.ram = self.SetRam(inputUsuario)
     self.cpu = inputUsuario['pref_cpu']
-    self.armazenamento = SetArmazenamento(inputUsuario)
+    self.armazenamento = self.SetArmazenamento(inputUsuario)
     self.so = inputUsuario['pref_so']
     self.vga = inputUsuario['pref_vga']
     self.tela = inputUsuario['pref_tela']
