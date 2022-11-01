@@ -202,3 +202,5 @@ def ChecarNotebooks(NotebooksFiltradosTipo,NotebookUsuario):
         pass
   else:
     pass
+
+  return NotebooksFiltradosTipo

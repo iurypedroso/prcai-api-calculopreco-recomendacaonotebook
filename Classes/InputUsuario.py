@@ -25,7 +25,10 @@ class InputUsuario():
     else:
       return int(inputUsuario['pref_armazenamento'])
 
-  def SetTipoPagamento(self):
-    
+  def SetTipoPagamento(self,inputUsuario):
+    self.tipo_pagamento = inputUsuario
+
+  def SetInvestimento(self,inputUsuario):
+    self.investimento = float(inputUsuario)
     
     

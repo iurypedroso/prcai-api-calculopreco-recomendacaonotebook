@@ -13,6 +13,7 @@ def ChecarNotebooks(NotebooksFiltradosTipo,NotebookUsuario):
       pass
   else:
     NotebooksFiltradosTipo = NotebooksFiltradosTipo
+      
   #CHECA PREFERÊNCIA DE VGA
   if(NotebookUsuario.vga != 'n/a'):
     if(len(NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['vga_dedicaca'].str.startswith(NotebookUsuario.vga)==True])>0):
@@ -21,33 +22,32 @@ def ChecarNotebooks(NotebooksFiltradosTipo,NotebookUsuario):
       pass
   else:
     pass
-  #CHECA SE TEM PREFERÊNCIA DE TELA
-  if(NotebookUsuario.tela != 'n/a'):
-    if(len(NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['tela_resolucao']==NotebookUsuario.tela])>0):
-      NotebooksFiltradosTipo = NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['tela_resolucao']==NotebookUsuario.tela]
-    else:
-      pass
-  else:
-    pass
-    #CHECA SE TEM PREFERÊNCIA DE CPU
-  if(NotebookUsuario.cpu == 'sim' or NotebookUsuario.cpu == 'nao'):
-    if (len(NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['processador'].str.startswith(NotebookUsuario.cpu)==True])>0):
+  #CHECA PREFERÊNCIA DE CPU    
+  if(NotebookUsuario.cpu != 'n/a'):
+    if(len(NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['processador'].str.startswith(NotebookUsuario.cpu)==True])>0):
       NotebooksFiltradosTipo = NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['processador'].str.startswith(NotebookUsuario.cpu)==True]
     else:
       pass
   else:
     pass
-  #CHECA SE TEM PREFERÊNCIA DE RAM
-  if(NotebookUsuario.ram != 'n/a'):
+  #CHECA PREFERÊNCIA DE RAM
+  if (NotebookUsuario.ram != 'n/a'):
     if(len(NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['ram']==NotebookUsuario.ram])>0):
-        NotebooksFiltradosTipo = NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['ram']==NotebookUsuario.ram]
+      NotebooksFiltradosTipo = NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['ram']==NotebookUsuario.ram]
     else:
       pass
   else:
     pass
-    
-  #CHECA SE TEM PREFERÊNCIA DE ARMAZENAMENTO
-  if(NotebookUsuario.armazenamento != 'n/a'):
+  #CHECA PREFERÊNCIA DE TELA
+  if (NotebookUsuario.tela != 'n/a'):
+    if(len(NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['tela_resolucao'].str.startswith(NotebookUsuario.tela)==True])>0):
+      NotebooksFiltradosTipo = NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['tela_resolucao'].str.startswith(NotebookUsuario.tela)==True]
+    else:
+      pass
+  else:
+    pass
+  #CHECA PREFERÊNCIA DE ARMAZENAMENTO
+  if (NotebookUsuario.armazenamento != 'n/a'):
     if(len(NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['ssd']>=NotebookUsuario.armazenamento])>0):
       NotebooksFiltradosTipo = NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo['ssd']>=NotebookUsuario.armazenamento]
     else:

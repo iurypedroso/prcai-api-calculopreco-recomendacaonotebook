@@ -1,5 +1,5 @@
 import json
-from Calculo_Metricas_Notebooks import coletar_preco
+from Calculo_Metricas_Notebooks import ColetarMelhorPrecoNotebook
 from Funcoes.Ajustar_Dataframe import ajuste_dataframe
 from Funcoes.Menor_Valor import menor_valor
 from Funcoes.Custo_Beneficio import custo_beneficio
@@ -37,7 +37,7 @@ def recomendacao_notebook(body):
         tipo_pagamento = 'preco_avista'
     else:
         tipo_pagamento = 'preco_aprazo'
-    coletar_preco('outros', pref, pref_ram,
+    ColetarMelhorPrecoNotebook('outros', pref, pref_ram,
                                         pref_cpu, pref_vga, pref_armazenamento,
                                         pref_so, pref_tela, tipo_notebook,
                                         pref_modelo, investimento,
