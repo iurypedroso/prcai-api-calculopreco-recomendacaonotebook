@@ -23,11 +23,16 @@ class InputUsuario():
     if (inputUsuario['pref_armazenamento'] == 'n/a'):
       return 'n/a'
     else:
+      armazenamento = int(inputUsuario['pref_armazenamento'])
+      if(armazenamento == 1000 or armazenamento ==1024)
       return int(inputUsuario['pref_armazenamento'])
 
   def SetTipoPagamento(self,inputUsuario):
-    self.tipo_pagamento = inputUsuario
-
+    if inputUsuario == 'avista':
+      self.tipo_pagamento = 'preco_avista'
+    else:
+      self.tipo_pagamento = 'preco_aprazo'
+      
   def SetInvestimento(self,inputUsuario):
     self.investimento = float(inputUsuario)
     

@@ -43,8 +43,12 @@ def ColetarMelhorPrecoNotebook(tipo_operacao, NotebookUsuario):
     NotebookAprazo = NotebookResultadoPreco(ResultadoNotebooksUsuario.sort_values(by='preco_aprazo', ascending = True).head(1))
 
     resultadoNotebooks = {
-      'MaisBaratoAvista': json.loads(json.dumps(NotebookAvista.__dict__)),
-      'MaisBaratoAprazo': json.loads(json.dumps(NotebookAprazo.__dict__))
+      'MenorPreco':{
+        'MaisBaratoAvista': json.loads(json.dumps(NotebookAvista.__dict__)),
+        'MaisBaratoAprazo': json.loads(json.dumps(NotebookAprazo.__dict__))
+        },
+      'SugestaoAston': 'nenhuma'
+      
     }
     return resultadoNotebooks
     
@@ -53,9 +57,7 @@ def ColetarMelhorPrecoNotebook(tipo_operacao, NotebookUsuario):
     calculo_media(NotebooksFiltradosTipo)
   else:
     if(len(NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo[NotebookUsuario.tipo_pagamento]<=NotebookUsuario.investimento])>0):
-      NotebooksFiltradosTipo = NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo[NotebookUsuario.tipo_pagamento]<=NotebookUsuario.investimento]
+      return NotebooksFiltradosTipo.loc[NotebooksFiltradosTipo[NotebookUsuario.tipo_pagamento]<=NotebookUsuario.investimento]
     else:
-      NotebooksFiltradosTipo = NotebooksFiltradosTipo.sort_values(by=NotebookUsuario.tipo_pagamento, ascending = True).head(5)
-      print(NotebooksFiltradosTipo)
+      return NotebooksFiltradosTipo = NotebooksFiltradosTipo.sort_values(by=NotebookUsuario.tipo_pagamento, ascending = True).head(5)
     
-  #         =====FIM NOTEBOOK TRABALHO/ESTUDO PERSONALIZADO=====         #

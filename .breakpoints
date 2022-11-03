@@ -1,3 +1,12 @@
 {
-  "files": {}
+  "files": {
+    "Funcoes/Ajustar_Dataframe.py": [
+      {
+        "id": "79e2bcf9-5f27-4e0a-8939-7192c0baeb6e",
+        "line": 13,
+        "version": 80,
+        "index": 379
+      }
+    ]
+  }
 }

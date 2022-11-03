@@ -2,7 +2,7 @@ from gevent import monkey
 from flask import Flask, request
 from gevent.pywsgi import WSGIServer
 from Applications.RecomendacaoNotebook import recomendacao_notebook
-from Applications.Coleta_Preco_Notebook import ColetarMenorPrecoNotebook
+from Applications.ColetaPrecoNotebook import ColetarMenorPrecoNotebook
 from Calculo_Metricas_Notebooks import ColetarMelhorPrecoNotebook
 from Classes.InputUsuario import InputUsuario
 
